@@ -1,0 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+using LoncotesLibrary.Models.DTOs;
+
+namespace LoncotesLibrary.Models;
+
+public class Checkout
+{
+    public int Id { get; set; }
+    [Required]
+    public int MaterialId { get; set; }
+    public Material Material { get; set; }
+    [Required]
+    public int PatronId { get; set; }
+    public Patron Patron { get; set; }
+    [Required]
+    public DateTime CheckoutDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
+
+    internal object Select(Func<object, CheckoutDTO> value)
+    {
+        throw new NotImplementedException();
+    }
+}
