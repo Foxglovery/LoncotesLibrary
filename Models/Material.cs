@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using LoncotesLibrary.Models.DTOs;
 
 namespace LoncotesLibrary.Models;
 
@@ -15,5 +16,10 @@ public class Material
     public int GenreId { get; set; }
     public Genre Genre { get; set; }
     public DateTime? OutOfCirculationSince { get; set; }
-    public Checkout Checkout { get; set; }
+    public List<Checkout> Checkouts { get; set; }
+
+    public static implicit operator Material(MaterialDTO v)
+    {
+        throw new NotImplementedException();
+    }
 }

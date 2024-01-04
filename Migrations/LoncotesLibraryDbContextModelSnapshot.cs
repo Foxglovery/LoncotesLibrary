@@ -43,11 +43,9 @@ namespace LoncotesLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialId")
-                        .IsUnique();
+                    b.HasIndex("MaterialId");
 
-                    b.HasIndex("PatronId")
-                        .IsUnique();
+                    b.HasIndex("PatronId");
 
                     b.ToTable("Checkouts");
                 });
@@ -326,14 +324,14 @@ namespace LoncotesLibrary.Migrations
             modelBuilder.Entity("LoncotesLibrary.Models.Checkout", b =>
                 {
                     b.HasOne("LoncotesLibrary.Models.Material", "Material")
-                        .WithOne("Checkout")
-                        .HasForeignKey("LoncotesLibrary.Models.Checkout", "MaterialId")
+                        .WithMany("Checkouts")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LoncotesLibrary.Models.Patron", "Patron")
-                        .WithOne("Checkout")
-                        .HasForeignKey("LoncotesLibrary.Models.Checkout", "PatronId")
+                        .WithMany("Checkouts")
+                        .HasForeignKey("PatronId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -363,14 +361,12 @@ namespace LoncotesLibrary.Migrations
 
             modelBuilder.Entity("LoncotesLibrary.Models.Material", b =>
                 {
-                    b.Navigation("Checkout")
-                        .IsRequired();
+                    b.Navigation("Checkouts");
                 });
 
             modelBuilder.Entity("LoncotesLibrary.Models.Patron", b =>
                 {
-                    b.Navigation("Checkout")
-                        .IsRequired();
+                    b.Navigation("Checkouts");
                 });
 #pragma warning restore 612, 618
         }

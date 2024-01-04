@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LoncotesLibrary.Migrations
 {
     [DbContext(typeof(LoncotesLibraryDbContext))]
-    [Migration("20240103155920_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240104174628_InitialCreateV1")]
+    partial class InitialCreateV1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,6 +120,8 @@ namespace LoncotesLibrary.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GenreId");
+
+                    b.HasIndex("MaterialTypeId");
 
                     b.ToTable("Materials");
 
@@ -324,13 +326,13 @@ namespace LoncotesLibrary.Migrations
             modelBuilder.Entity("LoncotesLibrary.Models.Checkout", b =>
                 {
                     b.HasOne("LoncotesLibrary.Models.Material", "Material")
-                        .WithMany()
+                        .WithMany("Checkouts")
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LoncotesLibrary.Models.Patron", "Patron")
-                        .WithMany()
+                        .WithMany("Checkouts")
                         .HasForeignKey("PatronId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -348,7 +350,25 @@ namespace LoncotesLibrary.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LoncotesLibrary.Models.MaterialType", "MaterialType")
+                        .WithMany()
+                        .HasForeignKey("MaterialTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Genre");
+
+                    b.Navigation("MaterialType");
+                });
+
+            modelBuilder.Entity("LoncotesLibrary.Models.Material", b =>
+                {
+                    b.Navigation("Checkouts");
+                });
+
+            modelBuilder.Entity("LoncotesLibrary.Models.Patron", b =>
+                {
+                    b.Navigation("Checkouts");
                 });
 #pragma warning restore 612, 618
         }

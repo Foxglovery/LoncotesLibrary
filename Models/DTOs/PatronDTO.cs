@@ -1,5 +1,7 @@
 
 
+using System.Xml.Schema;
+
 namespace LoncotesLibrary.Models.DTOs;
 
 public class PatronDTO
@@ -17,6 +19,6 @@ public class PatronDTO
     public string Email { get; set; }
 
     public bool IsActive { get; set; }
-    public CheckoutDTO Checkout { get; set; }
+    public List<Checkout> Checkouts { get; set; }
 
 }

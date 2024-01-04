@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LoncotesLibrary.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateV1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,6 +72,12 @@ namespace LoncotesLibrary.Migrations
                         name: "FK_Materials_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Materials_MaterialTypes_MaterialTypeId",
+                        column: x => x.MaterialTypeId,
+                        principalTable: "MaterialTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -170,15 +176,17 @@ namespace LoncotesLibrary.Migrations
                 name: "IX_Materials_GenreId",
                 table: "Materials",
                 column: "GenreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Materials_MaterialTypeId",
+                table: "Materials",
+                column: "MaterialTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Checkouts");
-
-            migrationBuilder.DropTable(
-                name: "MaterialTypes");
 
             migrationBuilder.DropTable(
                 name: "Materials");
@@ -188,6 +196,9 @@ namespace LoncotesLibrary.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "MaterialTypes");
         }
     }
 }
