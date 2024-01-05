@@ -94,23 +94,40 @@ app.MapGet("/api/materials/{id}", (LoncotesLibraryDbContext db, int id) =>
             Name = m.Genre.Name
         },
         OutOfCirculationSince = m.OutOfCirculationSince,
-        Checkouts = m.Checkouts.Select(c => new CheckoutDTO 
+        Checkouts = m.Checkouts != null ? m.Checkouts.Select(c => new CheckoutWithLateFeeDTO 
         {
             Id = c.Id,
             MaterialId = c.MaterialId,
+            Material = c.Material != null ? new MaterialDTO
+            {
+                Id = c.Material.Id,
+                MaterialName = c.Material.MaterialName,
+                MaterialTypeId = c.Material.MaterialTypeId,
+                MaterialType = c.Material.MaterialType != null ? new MaterialTypeDTO
+                {
+                    Id = c.Material.MaterialType.Id,
+                    Name = c.Material.MaterialType.Name,
+                    CheckoutDays = c.Material.MaterialType.CheckoutDays
+                } : null,
+                GenreId = c.Material.GenreId,
+                
+            } : null,
             PatronId = c.PatronId,
-            Patron = c.Patron != null ? new PatronDTO
+            Patron = c.Patron != null ? new PatronWithBalanceDTO
             {
                 Id = c.Patron.Id,
                 FirstName = c.Patron.FirstName,
                 LastName = c.Patron.LastName,
                 Address = c.Patron.Address,
                 Email = c.Patron.Email,
-                IsActive = c.Patron.IsActive
+                IsActive = c.Patron.IsActive,
+                
+                
             } : null,
             CheckoutDate = c.CheckoutDate,
-            ReturnDate = c.ReturnDate
-        }).ToList()
+            ReturnDate = c.ReturnDate,
+            Paid = c.Paid
+        }).ToList() : null
     }).Single(m => m.Id == id);
 });
 
@@ -320,7 +337,7 @@ app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
                 OutOfCirculationSince = co.Material.OutOfCirculationSince
             },
             PatronId = co.PatronId,
-            Patron = new PatronDTO
+            Patron = new PatronWithBalanceDTO
             {
                 Id = co.Patron.Id,
                 FirstName = co.Patron.FirstName,

@@ -20,11 +20,19 @@ public class CheckoutWithLateFeeDTO
     {
         get
         {
+            if (Material != null)
+            {
             DateTime dueDate = CheckoutDate.AddDays(Material.MaterialType.CheckoutDays);
             DateTime returnDate = ReturnDate ?? DateTime.Today;
             int daysLate = (returnDate - dueDate).Days;
             decimal fee = daysLate * _lateFeePerDay;
             return daysLate > 0 ? fee : null;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
     }
     public bool Paid { get; set;}
