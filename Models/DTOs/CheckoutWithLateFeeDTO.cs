@@ -10,7 +10,8 @@ public class CheckoutWithLateFeeDTO
     public MaterialDTO Material { get; set; }
 
     public int PatronId { get; set; }
-    public PatronDTO Patron { get; set; }
+    //if this breaks, change back to PatronDTO
+    public PatronWithBalanceDTO Patron { get; set; }
 
     public DateTime CheckoutDate { get; set; } = DateTime.Now;
     public DateTime? ReturnDate { get; set; } = null;
@@ -26,4 +27,5 @@ public class CheckoutWithLateFeeDTO
             return daysLate > 0 ? fee : null;
         }
     }
+    public bool Paid { get; set;}
 }

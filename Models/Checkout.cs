@@ -15,6 +15,7 @@ public class Checkout
     [Required]
     public DateTime CheckoutDate { get; set; } = DateTime.Now;
     public DateTime? ReturnDate { get; set; } = null;
+    public bool Paid { get; set; }
 
  
 }

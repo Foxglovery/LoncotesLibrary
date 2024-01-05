@@ -14,5 +14,5 @@ public class CheckoutDTO
 
     public DateTime CheckoutDate { get; set; } = DateTime.Now;
     public DateTime? ReturnDate { get; set; } = null;
-    
+    public bool Paid { get; set; }
 }
