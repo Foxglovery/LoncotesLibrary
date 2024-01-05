@@ -19,6 +19,7 @@ public class PatronDTO
     public string Email { get; set; }
 
     public bool IsActive { get; set; }
-    public List<Checkout> Checkouts { get; set; }
+    //IF THIS BREAKS CHANGE CHECKOUTWITHLATEFEEDTO BACKTO CHECKOUTDTO
+    public List<CheckoutWithLateFeeDTO> Checkouts { get; set; }
 
 }

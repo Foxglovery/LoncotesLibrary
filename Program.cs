@@ -187,7 +187,7 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
         .Include(p => p.Checkouts)
         .ThenInclude(c => c.Material)
         .ThenInclude(c => c.MaterialType)
-        .Select(p => new PatronDTO
+        .Select(p => new PatronWithBalanceDTO
         {
             Id = p.Id,
             FirstName = p.FirstName,
@@ -195,7 +195,8 @@ app.MapGet("/api/patrons/{id}", (LoncotesLibraryDbContext db, int id) =>
             Address = p.Address,
             Email = p.Email,
             IsActive = p.IsActive,
-            Checkouts = p.Checkouts.Select(c => new Checkout
+            //if this breaks, change back to checkoutdto
+            Checkouts = p.Checkouts.Select(c => new CheckoutWithLateFeeDTO
             {
                 Id = c.Id,
                 MaterialId = c.MaterialId,
@@ -300,7 +301,7 @@ app.MapGet("/api/checkouts/overdue", (LoncotesLibraryDbContext db) =>
         (DateTime.Today - co.CheckoutDate).Days >
         co.Material.MaterialType.CheckoutDays &&
         co.ReturnDate == null)
-        .Select(co => new CheckoutDTO
+        .Select(co => new CheckoutWithLateFeeDTO
         {
             Id = co.Id,
             MaterialId = co.MaterialId,
